@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register | Kiencode</title>
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="icon"
+      href="./favicon_io/android-chrome-512x512.png"
+      type="image/x-icon"
+    />
+    <style>
+      /* Reset mặc định */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        color: #333;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        overflow: hidden;
+        background: url("./image/lamviec.jpg") no-repeat center center/cover;
+      }
+
+      .wrapper {
+        background: rgba(255, 255, 255, 0.85);
+        padding: 40px;
+        border-radius: 10px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        width: 100%;
+        max-width: 400px;
+      }
+
+      h1 {
+        font-size: 24px;
+        margin-bottom: 20px;
+        text-align: center;
+        color: #007bff;
+      }
+
+      .input-box {
+        position: relative;
+        margin-bottom: 20px;
+      }
+
+      .input-box input {
+        width: 100%;
+        padding: 15px;
+        padding-left: 40px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 16px;
+        background: rgba(255, 255, 255, 0.6);
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .input-box i {
+        position: absolute;
+        top: 50%;
+        left: 10px;
+        transform: translateY(-50%);
+        font-size: 20px;
+        color: #999;
+      }
+
+      .btn {
+        width: 100%;
+        padding: 15px;
+        margin-top: 20px;
+        background: linear-gradient(135deg, #007bff, #00c6ff);
+        border: none;
+        color: #fff;
+        font-size: 16px;
+        border-radius: 5px;
+        cursor: pointer;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+      }
+
+      .btn:hover {
+        background: linear-gradient(135deg, #ff8c00, #ffc107);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+      }
+
+      .social-login {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 15px;
+      }
+
+      .social-login button {
+        width: 48%;
+        padding: 10px;
+        border: none;
+        color: #fff;
+        font-size: 14px;
+        border-radius: 5px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .social-login button i {
+        margin-right: 8px;
+        font-size: 18px;
+      }
+
+      .facebook-login {
+        background: #4267b2;
+      }
+
+      .google-login {
+        background: #db4437;
+      }
+
+      .social-login button:hover {
+        opacity: 0.9;
+      }
+
+      .toggle-link {
+        text-align: center;
+        margin-top: 15px;
+      }
+
+      .toggle-link a {
+        color: #007bff;
+        text-decoration: none;
+        font-weight: bold;
+      }
+
+      .toggle-link a:hover {
+        text-decoration: underline;
+      }
+
+      .show-password label {
+        margin-top: 10px;
+        display: block;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Form đăng ký -->
+    <div class="wrapper">
+      <h1>Register</h1>
+      <form id="registerForm" onsubmit="handleRegister(event)">
+        <!-- Username -->
+        <div class="input-box">
+          <input
+            type="text"
+            id="registerUsername"
+            placeholder="Username"
+            required
+          />
+          <i class="bx bxs-user"></i>
+        </div>
+
+        <!-- Email -->
+        <div class="input-box">
+          <input type="email" id="registerEmail" placeholder="Email" required />
+          <i class="bx bxs-envelope"></i>
+        </div>
+
+        <!-- Phone Number -->
+        <div class="input-box">
+          <input
+            type="text"
+            id="registerPhone"
+            placeholder="Phone Number"
+            required
+          />
+          <i class="bx bxs-phone"></i>
+        </div>
+
+        <!-- Password -->
+        <div class="input-box">
+          <input
+            type="password"
+            id="registerPassword"
+            placeholder="Password"
+            required
+          />
+          <i class="bx bxs-lock-alt"></i>
+        </div>
+
+        <!-- Show Password -->
+        <div class="show-password">
+          <label>
+            <input
+              type="checkbox"
+              id="showPasswordRegister"
+              onclick="togglePassword('registerPassword', 'showPasswordRegister')"
+            />
+            Show Password
+          </label>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn">Register</button>
+
+        <!-- Social Login -->
+        <div class="social-login">
+          <button
+            class="facebook-login"
+            onclick="redirectToFacebook()"
+            type="button"
+          >
+            <i class="bx bxl-facebook"></i> Login with Facebook
+          </button>
+          <button
+            class="google-login"
+            onclick="redirectToGoogle()"
+            type="button"
+          >
+            <i class="bx bxl-google"></i> Login with Google
+          </button>
+        </div>
+
+        <!-- Link to Login -->
+        <div class="toggle-link">
+          <p>
+            Already have an account?
+            <a href="login.html">Login</a>
+          </p>
+        </div>
+      </form>
+    </div>
+
+    <script>
+      function togglePassword(inputId, checkboxId) {
+        const passwordInput = document.getElementById(inputId);
+        const showPasswordCheckbox = document.getElementById(checkboxId);
+
+        // Toggle password visibility
+        if (showPasswordCheckbox.checked) {
+          passwordInput.type = "text";
+        } else {
+          passwordInput.type = "password";
+        }
+      }
+
+      function handleRegister(event) {
+        event.preventDefault();
+
+        const username = document.getElementById("registerUsername").value;
+        const email = document.getElementById("registerEmail").value;
+        const phone = document.getElementById("registerPhone").value;
+        const password = document.getElementById("registerPassword").value;
+
+        // Save user data in localStorage (demo purposes only)
+        localStorage.setItem("username", username);
+        localStorage.setItem("email", email);
+        localStorage.setItem("phone", phone);
+        localStorage.setItem("password", password);
+
+        alert("Registration successful! Please log in.");
+        window.location.href = "login.html";
+      }
+
+      function redirectToFacebook() {
+        window.location.href = "https://www.facebook.com/login.php";
+      }
+
+      function redirectToGoogle() {
+        window.location.href = "https://accounts.google.com/signin";
+      }
+    </script>
+  </body>
+</html>

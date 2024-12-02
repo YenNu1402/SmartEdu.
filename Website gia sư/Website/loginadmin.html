@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Login</title>
+  <style>
+    /* Sử dụng kiểu dáng tương tự như trang đăng nhập gia sư */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Poppins", sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: url("image/bg.jpg") no-repeat center center/cover;
+    }
+
+    .wrapper {
+      width: 100%;
+      max-width: 400px;
+      background: rgba(255, 255, 255, 0.85);
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    }
+
+    h1 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      text-align: center;
+      color: #007bff;
+    }
+
+    .input-box {
+      position: relative;
+      margin-bottom: 15px;
+    }
+
+    .input-box input {
+      width: 100%;
+      padding: 15px;
+      padding-left: 40px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 16px;
+      background: rgba(255, 255, 255, 0.6);
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .input-box i {
+      position: absolute;
+      top: 50%;
+      left: 10px;
+      transform: translateY(-50%);
+      font-size: 20px;
+      color: #999;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 15px;
+      margin-top: 10px;
+      background: linear-gradient(135deg, #007bff, #00c6ff);
+      border: none;
+      color: #fff;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+      background: linear-gradient(135deg, #ff8c00, #ffc107);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <h1>Admin Login</h1>
+    <form id="adminLoginForm" onsubmit="handleAdminLogin(event)">
+      <!-- Username -->
+      <div class="input-box">
+        <input type="text" id="adminUsername" placeholder="Username" required />
+        <i class="bx bxs-user"></i>
+      </div>
+
+      <!-- Password -->
+      <div class="input-box">
+        <input type="password" id="adminPassword" placeholder="Password" required />
+        <i class="bx bxs-lock-alt"></i>
+      </div>
+
+      <button type="submit" class="btn">Login</button>
+    </form>
+  </div>
+
+  <script>
+    function handleAdminLogin(event) {
+      event.preventDefault();
+
+      const adminUsername = document.getElementById("adminUsername").value;
+      const adminPassword = document.getElementById("adminPassword").value;
+
+      // Dữ liệu đăng nhập của admin (có thể thay thế bằng cơ sở dữ liệu thực)
+      if (adminUsername === "admin" && adminPassword === "admin123") {
+        alert("Đăng nhập thành công!");
+        window.location.href = "./admin-dashboard.html"; // Chuyển đến trang quản lý gia sư
+      } else {
+        alert("Tên đăng nhập hoặc mật khẩu không chính xác.");
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản Lý Khiếu Nại và Hỗ Trợ</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f8f9fa;
+      color: #333;
+    }
+
+    header {
+      background-color: #007bff;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 20px;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+
+    table th, table td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: left;
+    }
+
+    table th {
+      background-color: #007bff;
+      color: #fff;
+    }
+
+    table tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    table tr:hover {
+      background-color: #f1f1f1;
+    }
+
+    .btn {
+      padding: 8px 12px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .btn-view {
+      background-color: #17a2b8;
+      color: #fff;
+    }
+
+    .btn-view:hover {
+      background-color: #138496;
+    }
+
+    .btn-update {
+      background-color: #28a745;
+      color: #fff;
+    }
+
+    .btn-update:hover {
+      background-color: #218838;
+    }
+
+    .form-container {
+      display: none;
+      margin-bottom: 20px;
+    }
+
+    .form-container form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .form-container textarea, .form-container select {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .form-container button {
+      padding: 10px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .form-container button:hover {
+      background-color: #0056b3;
+    }
+
+    .back-btn-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .back-btn-container button {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .back-btn-container button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Quản Lý Khiếu Nại và Hỗ Trợ</h1>
+  </header>
+
+  <div class="container">
+    <h2>Danh Sách Khiếu Nại</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Tên Người Dùng</th>
+          <th>Nội Dung</th>
+          <th>Trạng Thái</th>
+          <th>Hành Động</th>
+        </tr>
+      </thead>
+      <tbody id="complaintList">
+        <!-- Dữ liệu khiếu nại sẽ được tải tại đây -->
+      </tbody>
+    </table>
+
+    <div class="form-container" id="complaintFormContainer">
+      <form id="complaintForm">
+        <h3>Chi Tiết Khiếu Nại</h3>
+        <textarea id="complaintDetail" rows="4" placeholder="Nội dung chi tiết" readonly></textarea>
+        <label for="status">Cập Nhật Trạng Thái:</label>
+        <select id="status">
+          <option value="Đang Xử Lý">Đang Xử Lý</option>
+          <option value="Đã Giải Quyết">Đã Giải Quyết</option>
+          <option value="Đã Đóng">Đã Đóng</option>
+        </select>
+        <button type="submit">Cập Nhật</button>
+      </form>
+    </div>
+
+    <div class="back-btn-container">
+      <button onclick="window.location.href='indexadmin.html'">Trở Về Trang Chính</button>
+    </div>
+  </div>
+
+  <script>
+    const complaints = [
+      { id: 1, name: "Nguyễn Văn A", content: "Không hài lòng với gia sư", status: "Đang Xử Lý" },
+      { id: 2, name: "Trần Thị B", content: "Gia sư đến trễ", status: "Đã Giải Quyết" },
+      { id: 3, name: "Phạm Văn C", content: "Dịch vụ hỗ trợ chậm", status: "Đang Xử Lý" }
+    ];
+
+    const complaintList = document.getElementById("complaintList");
+    const complaintFormContainer = document.getElementById("complaintFormContainer");
+    const complaintForm = document.getElementById("complaintForm");
+    const complaintDetail = document.getElementById("complaintDetail");
+    const statusSelect = document.getElementById("status");
+
+    let currentComplaintIndex = null;
+
+    function displayComplaints() {
+      complaintList.innerHTML = complaints.map((complaint, index) => `
+        <tr>
+          <td>${complaint.id}</td>
+          <td>${complaint.name}</td>
+          <td>${complaint.content}</td>
+          <td>${complaint.status}</td>
+          <td>
+            <button class="btn btn-view" onclick="viewComplaint(${index})">Xem</button>
+          </td>
+        </tr>
+      `).join("");
+    }
+
+    function viewComplaint(index) {
+      currentComplaintIndex = index;
+      const complaint = complaints[index];
+      complaintDetail.value = complaint.content;
+      statusSelect.value = complaint.status;
+      complaintFormContainer.style.display = "block";
+    }
+
+    complaintForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      if (currentComplaintIndex !== null) {
+        complaints[currentComplaintIndex].status = statusSelect.value;
+        alert("Cập nhật trạng thái thành công!");
+        displayComplaints();
+        complaintFormContainer.style.display = "none";
+      }
+    });
+
+    displayComplaints();
+  </script>
+</body>
+</html>

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kiểm Duyệt Nội Dung Bài Học</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f8f9fa;
+      color: #333;
+    }
+
+    header {
+      background-color: #007bff;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 20px;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+
+    table th, table td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: center;
+    }
+
+    table th {
+      background-color: #007bff;
+      color: #fff;
+    }
+
+    table tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    table tr:hover {
+      background-color: #f1f1f1;
+    }
+
+    .btn {
+      padding: 8px 12px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .btn-approve {
+      background-color: #28a745;
+      color: #fff;
+    }
+
+    .btn-approve:hover {
+      background-color: #218838;
+    }
+
+    .btn-delete {
+      background-color: #dc3545;
+      color: #fff;
+    }
+
+    .btn-delete:hover {
+      background-color: #c82333;
+    }
+    .back-btn-container button {
+    background-color: #007bff; /* Màu xanh nước biển */
+    color: #fff; /* Màu chữ trắng */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    }
+
+    .back-btn-container button:hover {
+    background-color: #0056b3; /* Màu xanh nước biển đậm hơn khi hover */
+    }
+
+    .back-btn-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+    .back-btn-container button {
+    background-color: #007bff; /* Màu xanh nước biển */
+    color: #fff; /* Màu chữ trắng */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    }
+
+    .back-btn-container button:hover {
+    background-color: #0056b3; /* Màu xanh nước biển đậm hơn khi hover */
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Kiểm Duyệt Nội Dung Bài Học</h1>
+  </header>
+
+  <div class="container">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Tiêu Đề Bài Học</th>
+          <th>Tác Giả</th>
+          <th>Nội Dung</th>
+          <th>Trạng Thái</th>
+          <th>Hành Động</th>
+        </tr>
+      </thead>
+      <tbody id="lessonList">
+        <!-- Dữ liệu bài học -->
+      </tbody>
+    </table>
+    <div class="back-btn-container">
+        <button onclick="window.location.href='indexadmin.html'">Trở Về Trang Chính</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const lessonListEl = document.getElementById("lessonList");
+
+    // Dữ liệu mẫu
+    const sampleLessons = [
+      { id: 1, title: "Toán Học Cơ Bản", author: "Nguyễn Văn A", content: "Nội dung về các phép tính cơ bản.", status: "Chờ duyệt" },
+      { id: 2, title: "Hóa Học Hữu Cơ", author: "Trần Thị B", content: "Nội dung về hóa học hữu cơ.", status: "Chờ duyệt" },
+      { id: 3, title: "Vật Lý Lượng Tử", author: "Lê Minh C", content: "Nội dung về các nguyên lý vật lý lượng tử.", status: "Chờ duyệt" }
+    ];
+
+    // Lấy danh sách bài học từ localStorage hoặc dữ liệu mẫu
+    function getLessons() {
+      return JSON.parse(localStorage.getItem("lessons")) || sampleLessons;
+    }
+
+    // Lưu danh sách bài học vào localStorage
+    function saveLessons(lessons) {
+      localStorage.setItem("lessons", JSON.stringify(lessons));
+    }
+
+    // Hiển thị danh sách bài học
+    function displayLessons() {
+      const lessons = getLessons();
+      lessonListEl.innerHTML = lessons.length
+        ? lessons.map((lesson, index) => `
+            <tr>
+              <td>${lesson.id}</td>
+              <td>${lesson.title}</td>
+              <td>${lesson.author}</td>
+              <td>${lesson.content}</td>
+              <td>${lesson.status}</td>
+              <td>
+                ${lesson.status === "Chờ duyệt" ? `<button class="btn btn-approve" onclick="approveLesson(${index})">Duyệt</button>` : ""}
+                <button class="btn btn-delete" onclick="deleteLesson(${index})">Xóa</button>
+              </td>
+            </tr>
+          `).join("")
+        : `<tr><td colspan="6">Không có bài học nào cần kiểm duyệt.</td></tr>`;
+    }
+
+    // Duyệt bài học
+    function approveLesson(index) {
+      const lessons = getLessons();
+      lessons[index].status = "Đã duyệt";
+      saveLessons(lessons);
+      alert("Bài học đã được duyệt!");
+      displayLessons();
+    }
+
+    // Xóa bài học
+    function deleteLesson(index) {
+      const lessons = getLessons();
+      if (confirm("Bạn có chắc chắn muốn xóa bài học này?")) {
+        lessons.splice(index, 1);
+        saveLessons(lessons);
+        alert("Bài học đã được xóa!");
+        displayLessons();
+      }
+    }
+
+    // Hiển thị bài học khi tải trang
+    saveLessons(sampleLessons); // Lưu dữ liệu mẫu vào localStorage
+    displayLessons();
+  </script>
+</body>
+</html>

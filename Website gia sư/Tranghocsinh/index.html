@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trang Chính Học Sinh</title>
+    <style>
+      /* CSS Reset */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background-color: #f8f9fa;
+        color: #333;
+      }
+
+      /* Header */
+      header {
+        background: linear-gradient(135deg, #007bff, #00c6ff);
+        color: white;
+        padding: 20px;
+        text-align: center;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        position: relative;
+      }
+
+      header h1 {
+        font-size: 2.5em;
+      }
+
+      header p {
+        font-size: 1.2em;
+        margin-top: 10px;
+      }
+
+      /* Search Bar & Menu */
+      .search-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 20px;
+        position: relative;
+      }
+
+      .menu-button {
+        font-size: 1em;
+        color: #007bff;
+        cursor: pointer;
+        background: none;
+        border: none;
+        outline: none;
+        font-weight: bold;
+        padding: 10px 20px;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+      }
+
+      .menu-button:hover {
+        background-color: #007bff;
+        color: white;
+        transform: scale(1.1);
+        box-shadow: 0px 4px 10px rgba(0, 123, 255, 0.4);
+      }
+
+      .menu-list {
+        position: absolute;
+        top: 50px;
+        left: 20px;
+        background: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        padding: 10px 0;
+        display: none;
+        width: 200px;
+        z-index: 1000;
+      }
+
+      .menu-list li {
+        list-style: none;
+        padding: 10px 20px;
+        border-bottom: 1px solid #ddd;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      .menu-list li:hover {
+        background-color: #f0f0f0;
+      }
+
+      .search-bar {
+        display: flex;
+        flex: 1;
+        max-width: 60%;
+        margin-left: 20px;
+      }
+
+      .search-bar input {
+        width: 100%;
+        padding: 10px 15px;
+        border: 2px solid #ccc;
+        border-radius: 30px 0 0 30px;
+        font-size: 1em;
+        outline: none;
+        transition: border-color 0.3s ease;
+      }
+
+      .search-bar input:focus {
+        border-color: #007bff;
+      }
+
+      .search-bar button {
+        background-color: #007bff;
+        border: none;
+        border-radius: 0 30px 30px 0;
+        padding: 10px 20px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background-color 0.3s ease;
+      }
+
+      .search-bar button img {
+        width: 20px;
+        height: 20px;
+      }
+
+      .search-bar button:hover {
+        background-color: #0056b3;
+      }
+
+      /* Features Section */
+      .features {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+        padding: 20px;
+      }
+
+      .feature-item {
+        text-align: center;
+        width: 250px;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        background-color: #fff;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s, box-shadow 0.3s;
+        display: none; /* Mặc định ẩn */
+      }
+
+      .feature-item img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-bottom: 15px;
+      }
+
+      .feature-item h3 {
+        font-size: 1.5em;
+        color: #007bff;
+        margin-bottom: 10px;
+      }
+
+      .feature-item p {
+        font-size: 1em;
+        color: #555;
+      }
+
+      .feature-item.visible {
+        display: block; /* Hiển thị lại khi phù hợp */
+      }
+
+      .feature-item:hover {
+        transform: scale(1.05);
+        box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+      }
+
+      /* Footer */
+      footer {
+        text-align: center;
+        padding: 15px;
+        background-color: #007bff;
+        color: white;
+        margin-top: 20px;
+      }
+
+      /* Header Right for Language and Facebook */
+      .header-right {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .lang-switch {
+        cursor: pointer;
+        background: white;
+        border: 2px solid #007bff;
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-size: 1em;
+        font-weight: bold;
+        color: #007bff;
+        transition: all 0.3s ease;
+      }
+
+      .lang-switch:hover {
+        background: #007bff;
+        color: white;
+      }
+
+      .fb-button {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+        transition: transform 0.3s, background-color 0.3s;
+      }
+
+      .fb-button:hover {
+        transform: scale(1.1);
+        background: #007bff;
+      }
+
+      .fb-button img {
+        width: 20px;
+        height: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Trang Chính Học Sinh</h1>
+      <p>Chào mừng bạn đến với hệ thống học tập trực tuyến</p>
+
+      <!-- Header Right with Language Switch and Facebook Button -->
+      <div class="header-right">
+        <button class="lang-switch" id="lang-switch">EN</button>
+        <a
+          href="https://www.facebook.com/koda.kien"
+          class="fb-button"
+          target="_blank"
+        >
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/733/733547.png"
+            alt="Facebook"
+          />
+        </a>
+      </div>
+    </header>
+
+    <div class="search-container">
+      <button class="menu-button" id="menu-button">Danh sách</button>
+      <ul class="menu-list" id="menu-list">
+        <li>Quản lý hồ sơ cá nhân</li>
+        <li>Xem hồ sơ</li>
+        <li>Xem thông báo</li>
+        <li>Xem lịch sử bài tập</li>
+        <li>Xem lịch học</li>
+        <li>Lớp học trực tuyến</li>
+        <li>Xem lịch sử bài học</li>
+        <li>Tài liệu tham khảo</li>
+        <li>Khoá học</li>
+        <li>Nộp bài tập</li>
+        <li>Thanh toán trực tuyến</li>
+        <li>Gợi ý giảng viên</li>
+        <li>Hỗ trợ và phản hồi</li>
+        <li>Lưu danh sách yêu thích</li>
+        <li>Xem kết quả</li>
+      </ul>
+      <div class="search-bar">
+        <input
+          type="text"
+          id="search-input"
+          placeholder="Tìm kiếm chức năng..."
+        />
+        <button id="search-btn">
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/622/622669.png"
+            alt="Search"
+          />
+        </button>
+      </div>
+    </div>
+
+    <section class="features" id="features-section">
+      <div class="feature-item" data-name="Quản lý hồ sơ cá nhân">
+        <img
+          src="./image/user.png"
+          alt="Quản lý hồ sơ cá nhân"
+        />
+        <h3>Quản lý hồ sơ cá nhân</h3>
+        <p>Quản lý hồ sơ cá nhân một cách nhanh chóng.</p>
+      </div>
+      <div class="feature-item" data-name="Xem hồ sơ">
+        <img
+         src="./image/eye.png"
+         alt="Xem hồ sơ"
+        />
+        <h3>Xem hồ sơ</h3>
+        <p>Xem hồ sơ một cách chi tiết</p>
+      </div>
+      <div class="feature-item" data-name="Xem thông báo">
+        <img
+         src="./image/bell.png"
+         alt="Xem thông báo"
+        />
+        <h3>Xem thông báo</h3>
+        <p>Xem thông báo một cách tối ưu</p>
+      </div>
+      <div class="feature-item" data-name="Xem lịch sử bài tập">
+        <img
+         src="./image/time-past.png"
+         alt="Xem lịch sử bài tập"
+        />
+        <h3>Xem lịch sử bài tập</h3>
+        <p>Xem lịch sử bài tập một cách linh hoạt</p>
+      </div>
+      <div class="feature-item" data-name="Xem lịch học">
+        <img
+         src="./image/calendar.png"
+         alt="Xem lịch học"
+        />
+        <h3>Xem lịch học</h3>
+        <p>Xem lịch học một cách chính xác</p>
+      </div>
+      <div class="feature-item" data-name="Lớp học trực tuyến">
+        <img
+         src="./image/book-alt.png"
+         alt="Lớp học trực tuyến"
+        />
+        <h3>Lớp học trực tuyến</h3>
+        <p>Xem lớp học trực tuyến một cách nhanh nhạy</p>
+      </div>
+      <div class="feature-item" data-name="Xem lịch sử bài học">
+        <img
+         src="./image/clock-three.png"
+         alt="Xem lịch sử bài học"
+        />
+        <h3>Xem lịch sử bài học</h3>
+        <p>Xem lịch sử bài học một cách thông minh</p>
+      </div>
+      <div class="feature-item" data-name="Tài liệu tham khảo">
+        <img
+         src="./image/search-alt.png"
+         alt="Tài liệu tham khảo"
+        />
+        <h3>Tài liệu tham khảo</h3>
+        <p>Tài liệu tham khảo một cách nhanh chóng</p>
+      </div>
+      <div class="feature-item" data-name="Khoá học">
+        <img
+         src="./image/layout-fluid.png"
+         alt="Khoá học"
+        />
+        <h3>Khoá học</h3>
+        <p>Khoá học một cách chi tiết</p>
+      </div>
+      <div class="feature-item" data-name="Nộp bài tập">
+        <img
+          src="./image/badge-check.png"
+          alt="Nộp bài tập"
+        />
+        <h3>Nộp bài tập</h3>
+        <p>Nộp bài tập trực tuyến một cách dễ dàng.</p>
+      </div>
+      <div class="feature-item" data-name="Thanh toán trực tuyến">
+        <img
+          src="./image/shopping-cart.png"
+          alt="Thanh toán trực tuyến"
+        />
+        <h3>Thanh toán trực tuyến</h3>
+        <p>Thanh toán học phí an toàn và tiện lợi.</p>
+      </div>
+      <div class="feature-item" data-name="Gợi ý giảng viên">
+        <img
+          src="./image/users-alt.png"
+          alt="Gợi ý giảng viên"
+        />
+        <h3>Gợi ý giảng viên</h3>
+        <p>Tìm giảng viên phù hợp với nhu cầu của bạn.</p>
+      </div>
+      <div class="feature-item" data-name="Hỗ trợ và phản hồi">
+        <img
+          src="./image/headset.png"
+          alt="Hỗ trợ và phản hồi"
+        />
+        <h3>Hỗ trợ và phản hồi</h3>
+        <p>Nhận hỗ trợ và phản hồi từ đội ngũ hỗ trợ.</p>
+      </div>
+      <div class="feature-item" data-name="Lưu danh sách yêu thích">
+        <img
+          src="./image/bookmark.png"
+          alt="Lưu danh sách yêu thích"
+        />
+        <h3>Lưu danh sách yêu thích</h3>
+        <p>Quản lý danh sách giảng viên yêu thích.</p>
+      </div>
+      <div class="feature-item" data-name="Xem kết quả">
+        <img
+          src="./image/diploma.png"
+          alt="Xem kết quả"
+        />
+        <h3>Xem kết quả</h3>
+        <p>Xem kết quả một cách dễ dàng.</p>
+      </div>
+    </section>
+
+    <footer>
+      <p>© 2024 Hệ thống học tập trực tuyến</p>
+    </footer>
+
+    <script>
+      const menuButton = document.getElementById("menu-button");
+      const menuList = document.getElementById("menu-list");
+      const searchInput = document.getElementById("search-input");
+      const features = document.querySelectorAll(".feature-item");
+      const langSwitch = document.getElementById("lang-switch");
+
+      // Toggle menu visibility
+      menuButton.addEventListener("click", () => {
+        menuList.style.display =
+          menuList.style.display === "block" ? "none" : "block";
+      });
+
+      // Close menu when clicked outside
+      document.addEventListener("click", (event) => {
+        if (
+          !menuButton.contains(event.target) &&
+          !menuList.contains(event.target)
+        ) {
+          menuList.style.display = "none";
+        }
+      });
+
+      // Search functionality
+      searchInput.addEventListener("input", () => {
+        const query = searchInput.value.trim().toLowerCase();
+
+        if (query === "") {
+          features.forEach((feature) => feature.classList.remove("visible"));
+        } else {
+          features.forEach((feature) => {
+            const name = feature.dataset.name.toLowerCase();
+            if (name.includes(query)) {
+              feature.classList.add("visible");
+            } else {
+              feature.classList.remove("visible");
+            }
+          });
+        }
+      });
+
+      // Language switch functionality
+      langSwitch.addEventListener("click", () => {
+        const currentLang = langSwitch.innerText;
+        langSwitch.innerText = currentLang === "EN" ? "VI" : "EN";
+        // In real-world, you'd change language here by loading language-specific content
+      });
+    </script>
+  </body>
+</html>

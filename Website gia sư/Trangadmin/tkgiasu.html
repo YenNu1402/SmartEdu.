@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard - Quản Lý Gia Sư</title>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background-color: #f4f4f4;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #007bff;
+    }
+    table {
+      width: 100%;
+      margin-top: 20px;
+      border-collapse: collapse;
+    }
+    table, th, td {
+      border: 1px solid #ddd;
+    }
+    th, td {
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background-color: #007bff;
+      color: white;
+    }
+    .btn {
+      padding: 5px 10px;
+      cursor: pointer;
+      border-radius: 5px;
+      border: none;
+    }
+    .btn-edit {
+      background-color: #28a745;
+      color: white;
+    }
+    .btn-delete {
+      background-color: #dc3545;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <h1>Quản Lý Tài Khoản Gia Sư</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Tên Gia Sư</th>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Password</th>
+        <th>Số Điện Thoại</th>
+        <th>Chuyên Môn</th>
+        <th>Hành Động</th>
+      </tr>
+    </thead>
+    <tbody id="tutorTableBody">
+      <!-- Dữ liệu gia sư sẽ được thêm vào ở đây -->
+    </tbody>
+  </table>
+
+  <script>
+    // Danh sách gia sư mặc định với thêm Username và Password
+    const defaultTutors = [
+      {
+        name: "Nguyễn Văn A",
+        username: "nguyenvana",
+        email: "nguyenvana@gmail.com",
+        password: "123456",
+        phone: "0901234567",
+        specialty: "Toán học"
+      },
+      {
+        name: "Trần Thị B",
+        username: "tranthib",
+        email: "tranthib@gmail.com",
+        password: "abcdef",
+        phone: "0902345678",
+        specialty: "Vật lý"
+      },
+      {
+        name: "Lê Thị C",
+        username: "lethic",
+        email: "lethic@gmail.com",
+        password: "789xyz",
+        phone: "0903456789",
+        specialty: "Hóa học"
+      }
+    ];
+
+    // Lấy danh sách từ localStorage hoặc danh sách mặc định
+    let tutors = JSON.parse(localStorage.getItem("tutors")) || defaultTutors;
+
+    const tutorTableBody = document.getElementById("tutorTableBody");
+
+    // Lưu danh sách vào localStorage
+    function saveToLocalStorage() {
+      localStorage.setItem("tutors", JSON.stringify(tutors));
+    }
+
+    // Hiển thị danh sách gia sư
+    function renderTutors() {
+      tutorTableBody.innerHTML = ""; // Xóa nội dung cũ
+      tutors.forEach((tutor, index) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${tutor.name}</td>
+          <td>${tutor.username}</td>
+          <td>${tutor.email}</td>
+          <td>${tutor.password}</td>
+          <td>${tutor.phone}</td>
+          <td>${tutor.specialty}</td>
+          <td>
+            <button class="btn btn-edit" onclick="editTutor(${index})">Sửa</button>
+            <button class="btn btn-delete" onclick="deleteTutor(${index})">Xóa</button>
+          </td>
+        `;
+        tutorTableBody.appendChild(row);
+      });
+    }
+
+    // Hàm sửa thông tin gia sư
+    function editTutor(index) {
+      const tutor = tutors[index];
+      const newName = prompt("Nhập tên mới:", tutor.name) || tutor.name;
+      const newUsername = prompt("Nhập username mới:", tutor.username) || tutor.username;
+      const newEmail = prompt("Nhập email mới:", tutor.email) || tutor.email;
+      const newPassword = prompt("Nhập mật khẩu mới:", tutor.password) || tutor.password;
+      const newPhone = prompt("Nhập số điện thoại mới:", tutor.phone) || tutor.phone;
+      const newSpecialty = prompt("Nhập chuyên môn mới:", tutor.specialty) || tutor.specialty;
+
+      tutors[index] = {
+        name: newName,
+        username: newUsername,
+        email: newEmail,
+        password: newPassword,
+        phone: newPhone,
+        specialty: newSpecialty
+      };
+      saveToLocalStorage(); // Lưu thay đổi vào localStorage
+      renderTutors(); // Hiển thị lại danh sách
+      alert("Thông tin gia sư đã được cập nhật.");
+    }
+
+    // Hàm xóa gia sư
+    function deleteTutor(index) {
+      if (confirm("Bạn có chắc chắn muốn xóa gia sư này?")) {
+        tutors.splice(index, 1); // Xóa gia sư
+        saveToLocalStorage(); // Lưu lại vào localStorage
+        renderTutors(); // Hiển thị lại danh sách
+        alert("Tài khoản gia sư đã bị xóa.");
+      }
+    }
+
+    // Hiển thị danh sách khi trang được mở
+    renderTutors();
+  </script>
+</body>
+</html>
